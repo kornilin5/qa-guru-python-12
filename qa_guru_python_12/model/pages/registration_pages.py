@@ -1,4 +1,3 @@
-import os
 from qa_guru_python_12.utils import resources_path
 from selene import browser, be, have, command
 from qa_guru_python_12.data.users import Users
@@ -13,6 +12,8 @@ class RegistrationPage:
             timeout=10).wait_until(have.size_greater_than_or_equal(3))
         browser.all("[id^=google_ads][id$=container__]").perform(
             command.js.remove)
+        browser.driver.execute_script(
+            "document.querySelector('.body-height').style.transform='scale(.65)'")
         browser.element('#submit').perform(command.js.scroll_into_view)
 
     def registration_form_page(self, user: Users):
