@@ -1,8 +1,8 @@
-import os
+from pathlib import Path
+import tests
 
 
-def path_picture():
-    resource_folder = os.path.abspath('tests/resources')
-    image_name = 'ZnugKfP5UJk.jpg'
-    image_path = os.path.join(resource_folder, image_name)
-    return image_path
+def path_picture(file_name):
+    return str(
+        Path(tests.__file__).parent.joinpath(
+            f'resources/{file_name}').absolute())

@@ -1,5 +1,6 @@
 import os
-from selene import browser, be, have
+from qa_guru_python_12.utils import resources_path
+from selene import browser, be, have, command
 from qa_guru_python_12.data.users import Users
 
 
@@ -7,6 +8,11 @@ class RegistrationPage:
 
     def open(self):
         browser.open("/")
+        browser.element('.fc-cta-consent').click()
+        browser.all("[id^=google_ads][id$=container__]").with_(
+            timeout=10).wait_until(have.size_greater_than_or_equal(3))
+        browser.all("[id^=google_ads][id$=container__]").perform(
+            command.js.remove)
 
     def registration_form_page(self, user: Users):
 
@@ -28,9 +34,8 @@ class RegistrationPage:
         browser.all('[for^=hobbies-checkbox]').element_by(
             have.exact_text(user.hobbies)).click()
 
-        browser.element('#uploadPicture').send_keys(
-            os.path.abspath(F'resources/{user.photo}'))
-
+        browser.element('#uploadPicture').set_value(
+            resources_path.path_picture(user.photo))
         browser.element("#currentAddress").type(user.current_address)
         browser.element('#state').click()
         browser.all('[id^=react-select][id*=option]').element_by(
